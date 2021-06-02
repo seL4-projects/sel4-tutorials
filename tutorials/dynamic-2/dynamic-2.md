@@ -1,16 +1,9 @@
-/*#
-#
-# Copyright 2017, Data61
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# ABN 41 687 119 230.
-#
-# This software may be distributed and modified according to the terms of
-# the BSD 2-Clause license. Note that NO WARRANTY is provided.
-# See "LICENSE_BSD2.txt" for details.
-#
-# @TAG(DATA61_BSD)
-#
--#*/
+<!--
+  Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
+
+  SPDX-License-Identifier: BSD-2-Clause
+-->
+
 /*? declare_task_ordering(
 ['task-1',
 'task-2',
@@ -368,14 +361,14 @@ send data to your new thread, it will receive the badge value with the
 data, and know which sender you are. Complete the step and proceed.
 
 - <https://github.com/seL4/seL4_libs/blob/master/libsel4vka/include/vka/object_capops.h>
-- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/types_32.bf>
+- <https://github.com/seL4/seL4/blob/master/libsel4/mode_include/32/sel4/shared_types.bf>
 
 ```
 /*-- set task_7_desc -*/
     /* TASK 7: make a badged copy of it in our cspace. This copy will be used to send
      * an IPC message to the original cap */
     /* hint 1: vka_mint_object()
-     * int vka_mint_object(vka_t *vka, vka_object_t *object, cspacepath_t *result, seL4_CapRights rights, seL4_CapData_t badge)
+     * int vka_mint_object(vka_t *vka, vka_object_t *object, cspacepath_t *result, seL4_CapRights rights, seL4_Word badge)
      * @param[in] vka The allocator for the cspace.
      * @param[in] object Target object for cap minting.
      * @param[out] result Allocated cspacepath.
@@ -384,17 +377,7 @@ data, and know which sender you are. Complete the step and proceed.
      * @return 0 on success
      *
      * hint 2: for the rights, use seL4_AllRights
-     * hint 3: for the badge use seL4_CapData_Badge_new()
-     * seL4_CapData_t CONST seL4_CapData_Badge_new(seL4_Uint32 Badge)
-     * @param[in] Badge The badge number to use
-     * @return A CapData structure containing the desired badge info
-     *
-     * seL4_CapData_t is generated during build.
-     * The type definition and generated field access functions are defined in a generated file:
-     * build/x86/pc99/libsel4/include/sel4/types_gen.h
-     * It is generated from the following definition:
-     *
-     * hint 4: for the badge use EP_BADGE
+     * hint 3: for the badge use EP_BADGE
      */
 /*-- endset -*/
 /*? task_7_desc ?*/
@@ -427,8 +410,8 @@ specifies, among other things, the number of Message Registers that hold
 meaningful data, and the number of capabilities that are going to be
 transmitted in the message.
 
-- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/shared_types_32.bf>
-- <https://github.com/seL4/seL4/blob/master/libsel4/arch_include/x86/sel4/arch/functions.h>
+- <https://github.com/seL4/seL4/blob/master/libsel4/mode_include/32/sel4/shared_types.bf>
+- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/functions.h>
 
 ```
 /*-- set task_8_desc -*/
@@ -506,7 +489,7 @@ It's entirely possible that the receiver may not be able to send a
 response message, if the sender doesn't want it to.
 
 - <https://github.com/seL4/seL4/blob/master/libsel4/sel4_arch_include/ia32/sel4/sel4_arch/syscalls.h>
-- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/shared_types_32.bf>
+- <https://github.com/seL4/seL4/blob/master/libsel4/mode_include/32/sel4/shared_types.bf>
 
 ```
 /*-- set task_9_desc -*/
@@ -554,7 +537,7 @@ reading the reply from the receiver. As mentioned before, the
 `seL4_GetMR()` calls are simply reading from the calling thread's
 designated, single IPC buffer.
 
-- <https://github.com/seL4/seL4/blob/master/libsel4/arch_include/x86/sel4/arch/functions.h>
+- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/functions.h>
 
 ```
 /*-- set task_10_desc -*/
@@ -586,7 +569,7 @@ reading the badge value on the incoming message? The receiver is
 explicitly interested in distinguishing the sender.
 
 - <https://github.com/seL4/seL4/blob/master/libsel4/sel4_arch_include/aarch32/sel4/sel4_arch/syscalls.h>
-- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/shared_types_32.bf>
+- <https://github.com/seL4/seL4/blob/master/libsel4/mode_include/32/sel4/shared_types.bf>
 
 ```
 /*-- set task_11_desc -*/
@@ -622,7 +605,7 @@ These two calls here are just verification of the fidelity of the
 transmitted message. It's very unlikely you'll encounter an error here.
 Complete them and proceed to the next step.
 
-- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/shared_types_32.bf>
+- <https://github.com/seL4/seL4/blob/master/libsel4/mode_include/32/sel4/shared_types.bf>
 
 ```
 /*-- set task_12_desc -*/
@@ -656,7 +639,7 @@ On completion, the output should not change.
 
 Again, just reading the data from the Message Registers.
 
-- <https://github.com/seL4/seL4/blob/master/libsel4/arch_include/x86/sel4/arch/functions.h>
+- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/functions.h>
 
 ```
 /*-- set task_13_desc -*/
@@ -685,7 +668,7 @@ thread_2: got a message 0x6161 from 0x61
 
 And writing Message Registers again.
 
-- <https://github.com/seL4/seL4/blob/master/libsel4/arch_include/x86/sel4/arch/functions.h>
+- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/functions.h>
 
 ```
 /*-- set task_14_desc -*/
@@ -723,7 +706,7 @@ and the seL4 kernel will facilitate this one-time permissive response.
 Complete the step and pat yourself on the back.
 
 - <https://github.com/seL4/seL4/blob/master/libsel4/sel4_arch_include/ia32/sel4/sel4_arch/syscalls.h>
-- <https://github.com/seL4/seL4/blob/master/libsel4/include/sel4/shared_types_32.bf>
+- <https://github.com/seL4/seL4/blob/master/libsel4/mode_include/32/sel4/shared_types.bf>
 
 ```
 /*-- set task_15_desc -*/
@@ -763,15 +746,9 @@ That's it for this tutorial.
 ```
 /*-- filter File("main.c") -*/
 /*
- * Copyright 2017, Data61
- * Commonwealth Scientific and Industrial Research Organisation (CSIRO)
- * ABN 41 687 119 230.
+ * Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
  *
- * This software may be distributed and modified according to the terms of
- * the BSD 2-Clause license. Note that NO WARRANTY is provided.
- * See "LICENSE_BSD2.txt" for details.
- *
- * @TAG(DATA61_BSD)
+ * SPDX-License-Identifier: BSD-2-Clause
  */
 
 /*

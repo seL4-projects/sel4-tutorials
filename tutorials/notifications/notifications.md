@@ -1,16 +1,9 @@
-/*#
-#
-# Copyright 2017, Data61
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# ABN 41 687 119 230.
-#
-# This software may be distributed and modified according to the terms of
-# the BSD 2-Clause license. Note that NO WARRANTY is provided.
-# See "LICENSE_BSD2.txt" for details.
-#
-# @TAG(DATA61_BSD)
-#
--#*/
+<!--
+  Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
+
+  SPDX-License-Identifier: BSD-2-Clause
+-->
+
 /*? declare_task_ordering(['ntfn-start', 'ntfn-shmem', 'ntfn-signal', 'ntfn-badge']) ?*/
 # Notifications and shared memory
 
@@ -116,6 +109,7 @@ However, we do not map the second buffer in, so producer 2 crashes immediately.
 /*-- filter TaskContent("ntfn-start", TaskContentType.ALL, subtask="shmem2", completion="Caught cap fault in send phase") -*/
     // TODO share buf2_frame_cap with producer_2
 /*-- endfilter -*/
+/*-- filter ExcludeDocs() -*/
 /*-- filter TaskContent("ntfn-shmem", TaskContentType.COMPLETED, subtask="shmem2", completion="Waiting for producer") -*/
     /* set up shared memory for producer 2 */
     error = seL4_CNode_Copy(cnode, mapping_2, seL4_WordBits, 
@@ -126,9 +120,10 @@ However, we do not map the second buffer in, so producer 2 crashes immediately.
                                seL4_AllRights, seL4_ARCH_Default_VMAttributes);
     ZF_LOGF_IFERR(error, "Failed to map frame");
 /*-- endfilter -*/
+/*-- endfilter -*/
 ```
 
-On success, the fault output should no longer occur.
+Whether this is successful will be visible after the next exercise when the consumers access their buffers. If the shared page setup for producer 2 is not correct, it will fail with a vm fault.
 
 ### Signal the producers to go
 
@@ -141,9 +136,11 @@ to be written to.
 /*-- filter TaskContent("ntfn-start", TaskContentType.ALL, subtask="signal", completion="Waiting for producer") -*/
     // TODO signal both producers
 /*-- endfilter -*/
+/*-- filter ExcludeDocs() -*/
 /*-- filter TaskContent("ntfn-signal", TaskContentType.COMPLETED, subtask="signal", completion="Got badge") -*/
     seL4_Signal(buf1_empty);
     seL4_Signal(buf2_empty);
+/*-- endfilter -*/
 /*-- endfilter -*/
 ```
 
@@ -173,6 +170,7 @@ which of the producers (it may be both) has produced data.
     // TODO, use the badge to check which producer has signalled you, and signal it back. Note that you 
     // may recieve more than 1 signal at a time.
 /*-- endfilter -*/
+/*-- filter ExcludeDocs() -*/
 /*-- filter TaskContent("ntfn-badge", TaskContentType.COMPLETED, subtask="badge", completion="Success") -*/
         if (badge & 0b01) {
             assert(*buf1 == 1);
@@ -184,6 +182,7 @@ which of the producers (it may be both) has produced data.
             *buf2 = 0;
             seL4_Signal(buf2_empty);
         }
+/*-- endfilter -*/
 /*-- endfilter -*/
 ```
 

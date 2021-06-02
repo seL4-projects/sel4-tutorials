@@ -1,16 +1,9 @@
-/*#
-#
-# Copyright 2017, Data61
-# Commonwealth Scientific and Industrial Research Organisation (CSIRO)
-# ABN 41 687 119 230.
-#
-# This software may be distributed and modified according to the terms of
-# the BSD 2-Clause license. Note that NO WARRANTY is provided.
-# See "LICENSE_BSD2.txt" for details.
-#
-# @TAG(DATA61_BSD)
-#
--#*/
+<!--
+  Copyright 2017, Data61, CSIRO (ABN 41 687 119 230)
+
+  SPDX-License-Identifier: BSD-2-Clause
+-->
+
 /*? declare_task_ordering(['cnode-start', 'cnode-size', 'cnode-copy', 'cnode-delete', 'cnode-invoke']) ?*/
 
 
@@ -160,7 +153,7 @@ int main(int argc, char *argv[]) {
     seL4_BootInfo *info = platsupport_get_bootinfo();
 
     size_t initial_cnode_object_size = BIT(info->initThreadCNodeSizeBits);
-    printf("Initial CNode is %zu bytes in size\n", initial_cnode_object_size);
+    printf("Initial CNode is %zu slots in size\n", initial_cnode_object_size);
 /*-- endfilter -*/
 ```
 When you run the tutorial without changes, you will see something like the following output:
@@ -362,7 +355,6 @@ to become more familiar with cspaces.
 ```
 ```cmake
 /*-- filter File("CMakeLists.txt") -*/
-# @TAG(DATA61_BSD)
 include(${SEL4_TUTORIALS_DIR}/settings.cmake)
 sel4_tutorials_regenerate_tutorial(${CMAKE_CURRENT_SOURCE_DIR})
 
